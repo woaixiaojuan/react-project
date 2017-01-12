@@ -1,0 +1,15 @@
+var ENV = {
+  api: 'http://service12.handsight.com.cn',
+  activeId: 16280472,
+  appId: 'b7be0',
+  boxImgUrl: 'http://resource.handsight.cn/TVHelp01/img/upload/1481874671656_8888.png',
+  rewardImg: 'http://resource.handsight.cn/voteActive/upload/img/1482197296681_9139.jpg',
+  openImgUrl: 'http://resource.handsight.cn/voteActive/upload/img/1481978853111_9682.png',
+  fullBoxImg: 'http://resource.handsight.cn/voteActive/upload/img/1481979186685_6326.png',
+  emptyBoxUrl: 'http://resource.handsight.cn/voteActive/upload/img/1481947525516_5640.png',
+  bgImgUrl: 'http://resource.handsight.cn/voteActive/upload/img/1482120840514_5060.jpg',
+  noRewardImg: 'http://resource.handsight.cn/voteActive/upload/img/1482290309739_1209.jpg',
+  endImg: 'http://resource.handsight.cn/voteActive/upload/img/1482314441838_1920.jpg',
+  centerImg: 'http://resource.handsight.cn/voteActive/upload/img/1482197321008_3003.jpg',
+  rewardCountImg: 'http://resource.handsight.cn/voteActive/upload/img/1482290817245_7260.png',
+};
