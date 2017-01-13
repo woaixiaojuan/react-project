@@ -1,0 +1,201 @@
+import axios from 'axios';
+import { message } from 'antd';
+
+function getActive(appId) {
+  return axios.get(`${ENV.api}/active/get_active?appId=${appId}&activeId=${ENV.activeId}`);
+}
+
+function getCount(appId) {
+  return axios.get(`${ENV.api}/activity/drawCount/get?appId=${appId}&activeId=${ENV.activeId}`);
+}
+
+export function getData(appId) {
+  return function (dispatch) {
+    axios.all([getActive(appId), getCount(appId)])
+    .then(axios.spread((activeRes, countRes, reject) => {
+      if (activeRes.data.success === true && countRes.data.success === true && countRes.data.data !== null) {
+        const activeData = activeRes.data.data;
+        document.getElementById('canvas').style.backgroundImage = 'url(http://resource.handsight.cn/voteActive/upload/img/1483688684960_6480.jpg)';
+        setTimeout(() => {
+          dispatch({
+            type: 'GET_DATA_FULFILLED',
+            payload: activeData,
+          });
+        }, 2000);
+      } else {
+        reject();
+      }
+    }))
+    .catch(() => {
+      setTimeout(() => {
+        dispatch({
+          type: 'SPIN_ERR',
+        });
+        message.error('获取活动数据出错！', 3);
+      }, 2000);
+    });
+  };
+}
+
+export function getUserInfo(tempAppId) {
+  return function (dispatch) {
+    axios.get(`${ENV.api}/thirdparty/user/getUserInfo?appId=${tempAppId}&code=${ENV.code}&typeName=wx`)
+    .then((res, reject) => {
+      if (res.data.success === true) {
+        const appId = JSON.parse(res.data.data).appId;
+        localStorage.setItem('YH_appid', appId);
+        // ENV.appId = appId;
+        dispatch(getData(appId));
+        dispatch({
+          type: 'GET_USERINFO_FULFILLED',
+          data: appId,
+        });
+      } else {
+        reject();
+      }
+    })
+    .catch(() => {
+      setTimeout(() => {
+        dispatch({
+          type: 'SPIN_ERR',
+        });
+        message.error('appId请求出错！', 2);
+      }, 2000);
+    });
+  };
+}
+
+export function getAppId() {
+  return function (dispatch) {
+    const appId = localStorage.getItem('YH_appid');
+    // ENV.appId = appId;
+    if (appId) {
+      dispatch(getData(appId));
+    } else {
+      axios.get(`${ENV.api}/user/appid?mac=${ENV.mac}`)
+      .then((res, reject) => {
+        if (res.data.success === true) {
+          const tempAppId = res.data.data;
+          if (tempAppId) {
+            dispatch(getUserInfo(tempAppId));
+          }
+        } else {
+          reject();
+        }
+      })
+      .catch(() => {
+        setTimeout(() => {
+          dispatch({
+            type: 'SPIN_ERR',
+          });
+          message.error('appId请求出错！', 2);
+        }, 2000);
+      });
+    }
+  };
+}
+
+export function getRewardInfo(appId) {
+  return function (dispatch) {
+    dispatch({
+      type: 'GET_REWARD_INFO_PENDING',
+    });
+    const startTime = new Date();
+    axios.get(`${ENV.api}/activity/drawResultYH?appId=${appId}&activeId=${ENV.activeId}`)
+      .then((res) => {
+        const costTime = new Date() - startTime;
+        if (res.data.success === true) {
+          const data = res.data.data;
+          if (costTime < 3000) {
+            const t = 3000 - costTime;
+            setTimeout(() => {
+              dispatch({
+                type: 'GET_REWARD_INFO_FULFILLED',
+                payload: data,
+              });
+              clearInterval(window.timer);
+            }, t);
+          } else {
+            dispatch({
+              type: 'GET_REWARD_INFO_FULFILLED',
+              payload: data,
+            });
+            clearInterval(window.timer);
+          }
+        } else if (costTime < 3000) {
+          const t = 3000 - costTime;
+          setTimeout(() => {
+            dispatch({
+              type: 'GET_REWARD_INFO_REJECTED',
+            });
+            clearInterval(window.timer);
+            message.error(res.data.msg, 2);
+          }, t);
+        } else {
+          dispatch({
+            type: 'GET_REWARD_INFO_REJECTED',
+          });
+          clearInterval(window.timer);
+          message.error(res.data.msg, 2);
+        }
+      })
+      .catch(() => {
+        setTimeout(() => {
+          dispatch({
+            type: 'GET_REWARD_INFO_REJECTED',
+          });
+          clearInterval(window.timer);
+          message.error('请求出错！', 2);
+        }, 1000);
+      });
+  };
+}
+
+export function getReward(appId) {
+  return function (dispatch) {
+    dispatch({
+      type: 'GET_COUNT_PENDING',
+    });
+    getCount(appId).then((res, reject) => {
+      if (res.data.success === true) {
+        const count = res.data.data;
+        if (count === null) {
+          dispatch({
+            type: 'GET_COUNT_REJECTED',
+          });
+          message.info('活动还没有开展！！！', 2);
+        } else if (count > 0) {
+          dispatch(getRewardInfo(appId));
+          window.timer = setInterval(window.fireworks.start, 280);
+        } else {
+          dispatch({
+            type: 'GET_COUNT_REJECTED',
+          });
+          message.info('今天的抽奖次数已经用完！！！', 2);
+        }
+      } else {
+        reject();
+      }
+    })
+    .catch(() => {
+      dispatch({
+        type: 'GET_COUNT_REJECTED',
+      });
+      message.error('获取抽奖次数出错！', 2);
+    });
+  };
+}
+
+export function cancelModule() {
+  return {
+    type: 'MODULE_HIDE',
+  };
+}
+
+export function ruleModal(flag) {
+  return {
+    type: 'RULE_MODAL',
+    payload: flag,
+  };
+}
+
