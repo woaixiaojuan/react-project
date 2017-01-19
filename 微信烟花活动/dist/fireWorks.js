@@ -16,7 +16,7 @@ window.Fireworks = function () {
 		self.canvas.width = self.cw = _getDocumentWidth();
 		self.canvas.height = self.ch = _getDocumentHeight();
 		self.particles = [];
-		self.partCount = 150;
+		self.partCount = 60;
 		self.fireworks = [];
 		self.mx = self.cw / 2;
 		self.my = self.ch / 2;
@@ -158,7 +158,6 @@ window.Fireworks = function () {
 			lineWidth: self.lineWidth
 		};
 		self.fireworks.push(newFirework);
-
 	};
 
 	self.updateFireworks = function () {

@@ -134,14 +134,16 @@ export function getRewardInfo(appId) {
         const costTime = new Date() - startTime;
         if (res.data.success === true) {
           const data = res.data.data;
-          if (costTime < 3000) {
-            const t = 3000 - costTime;
+          if (costTime < 4500) {
+            const t = 4500 - costTime;
             setTimeout(() => {
               dispatch({
                 type: 'GET_REWARD_INFO_FULFILLED',
                 payload: data,
               });
               clearInterval(window.timer);
+              window.music.volume = 0;
+              // window.music.pause();
             }, t);
           } else {
             dispatch({
@@ -149,14 +151,18 @@ export function getRewardInfo(appId) {
               payload: data,
             });
             clearInterval(window.timer);
+            window.music.volume = 0;
+            // window.music.pause();
           }
-        } else if (costTime < 3000) {
-          const t = 3000 - costTime;
+        } else if (costTime < 4500) {
+          const t = 4500 - costTime;
           setTimeout(() => {
             dispatch({
               type: 'GET_REWARD_INFO_REJECTED',
             });
             clearInterval(window.timer);
+            window.music.volume = 0;
+            // window.music.pause();
             message.error(res.data.msg, 2);
           }, t);
         } else {
@@ -164,6 +170,8 @@ export function getRewardInfo(appId) {
             type: 'GET_REWARD_INFO_REJECTED',
           });
           clearInterval(window.timer);
+          window.music.volume = 0;
+          // window.music.pause();
           message.error(res.data.msg, 2);
         }
       })
@@ -173,6 +181,8 @@ export function getRewardInfo(appId) {
           type: 'GET_REWARD_INFO_REJECTED',
         });
         clearInterval(window.timer);
+        window.music.volume = 0;
+        // window.music.pause();
         // message.error('请求出错！', 2);
       });
   };
@@ -192,8 +202,9 @@ export function getReward(appId) {
           });
           message.info('活动还没有开展！！！', 3);
         } else if (count > 0) {
+          window.timer = setInterval(window.fireworks.start, 300);
+          window.music.volume = 1;
           dispatch(getRewardInfo(appId));
-          window.timer = setInterval(window.fireworks.start, 280);
         } else {
           dispatch({
             type: 'GET_COUNT_REJECTED',

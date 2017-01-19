@@ -16,9 +16,12 @@ export default class IndexPage extends React.Component {
     this.props.dispatch(getAppId());
   }
   componentDidMount() {
+    window.music = document.getElementById('music');
+    window.music.play();
+    window.music.volume = 0;
     window.fireworks = new Fireworks();
   }
-  getReward() {
+  handleGetReward() {
     const { clickAble } = this.props.getActive;
     if (clickAble) {
       const appId = localStorage.getItem('YH_appid');
@@ -88,7 +91,7 @@ export default class IndexPage extends React.Component {
         </div>
         <Ruleinfo visible={ruleMark} ruleText={ruleText} dispatch={this.props.dispatch} />
         <div style={wordStyle} />
-        <Button onClick={this.getReward.bind(this)} id="obtn" style={getBtnStyle} />
+        <Button onClick={this.handleGetReward.bind(this)} id="obtn" style={getBtnStyle} />
         <Spin tip="活动加载中..." spinning={spinning} spinErr={spinErr} spinOk={spinOk} />
       </div>
     );

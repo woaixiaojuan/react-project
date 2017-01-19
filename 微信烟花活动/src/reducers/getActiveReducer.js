@@ -38,7 +38,6 @@ export default function reducer(state = {
     case 'GET_REWARD_INFO_FULFILLED':
       {
         const { rewardsId } = action.payload;
-        // console.log(action.payload);
         return {
           ...state,
           popMark: true,
