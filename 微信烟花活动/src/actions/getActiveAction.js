@@ -75,7 +75,7 @@ export function getUserInfo(tempAppId) {
       if (res.data.success === true) {
         const appId = JSON.parse(res.data.data).appId;
         localStorage.setItem('YH_appid', appId);
-        // ENV.appId = appId;
+        ENV.appId = appId;
         dispatch(getData(appId));
         dispatch({
           type: 'GET_USERINFO_FULFILLED',
@@ -98,7 +98,7 @@ export function getUserInfo(tempAppId) {
 export function getAppId() {
   return function (dispatch) {
     const appId = localStorage.getItem('YH_appid');
-    // ENV.appId = appId;
+    ENV.appId = appId;
     if (appId) {
       dispatch(getData(appId));
     } else {
@@ -142,8 +142,7 @@ export function getRewardInfo(appId) {
                 payload: data,
               });
               clearInterval(window.timer);
-              window.music.volume = 0;
-              // window.music.pause();
+              window.music.pause();
             }, t);
           } else {
             dispatch({
@@ -151,8 +150,7 @@ export function getRewardInfo(appId) {
               payload: data,
             });
             clearInterval(window.timer);
-            window.music.volume = 0;
-            // window.music.pause();
+            window.music.pause();
           }
         } else if (costTime < 4500) {
           const t = 4500 - costTime;
@@ -161,8 +159,7 @@ export function getRewardInfo(appId) {
               type: 'GET_REWARD_INFO_REJECTED',
             });
             clearInterval(window.timer);
-            window.music.volume = 0;
-            // window.music.pause();
+            window.music.pause();
             message.error(res.data.msg, 2);
           }, t);
         } else {
@@ -170,8 +167,7 @@ export function getRewardInfo(appId) {
             type: 'GET_REWARD_INFO_REJECTED',
           });
           clearInterval(window.timer);
-          window.music.volume = 0;
-          // window.music.pause();
+          window.music.pause();
           message.error(res.data.msg, 2);
         }
       })
@@ -181,8 +177,7 @@ export function getRewardInfo(appId) {
           type: 'GET_REWARD_INFO_REJECTED',
         });
         clearInterval(window.timer);
-        window.music.volume = 0;
-        // window.music.pause();
+        window.music.pause();
         // message.error('请求出错！', 2);
       });
   };
@@ -202,8 +197,8 @@ export function getReward(appId) {
           });
           message.info('活动还没有开展！！！', 3);
         } else if (count > 0) {
+          window.music.play();
           window.timer = setInterval(window.fireworks.start, 300);
-          window.music.volume = 1;
           dispatch(getRewardInfo(appId));
         } else {
           dispatch({
@@ -238,3 +233,18 @@ export function ruleModal(flag) {
   };
 }
 
+
+export function historyModalShow() {
+  return function(dispatch) {
+    dispatch({
+      type: 'GET_RECORD',
+      payload: axios.get(`${ENV.api}/activity/drawResultList?type=1&appId=${ENV.appId}&activeId=${ENV.activeId}`),
+    });
+  };
+}
+
+export function historyModalHide() {
+  return {
+    type: 'HISTORY_MODAL_HIDE',
+  };
+}

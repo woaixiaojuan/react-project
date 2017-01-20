@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 import { getAppId, cancelModule, getReward } from '../actions/getActiveAction';
 import Ruleinfo from '../components/Ruleinfo';
+import History from '../components/History';
 import Spin from '../components/Spin';
 
 @connect((store) => {
@@ -17,8 +18,6 @@ export default class IndexPage extends React.Component {
   }
   componentDidMount() {
     window.music = document.getElementById('music');
-    window.music.play();
-    window.music.volume = 0;
     window.fireworks = new Fireworks();
   }
   handleGetReward() {
@@ -32,7 +31,7 @@ export default class IndexPage extends React.Component {
     this.props.dispatch(cancelModule());
   }
   render() {
-    const { popMark, display, rewardsId, spinning, spinErr, spinOk, ruleText, ruleMark } = this.props.getActive;
+    const { popMark, display, rewardsId, spinning, spinErr, spinOk, ruleText, ruleMark, historyMark, historyText } = this.props.getActive;
     const wordStyle = {
       display,
       position: 'absolute',
@@ -90,6 +89,7 @@ export default class IndexPage extends React.Component {
           </div>
         </div>
         <Ruleinfo visible={ruleMark} ruleText={ruleText} dispatch={this.props.dispatch} />
+        <History visible={historyMark} historyText={historyText} dispatch={this.props.dispatch} />
         <div style={wordStyle} />
         <Button onClick={this.handleGetReward.bind(this)} id="obtn" style={getBtnStyle} />
         <Spin tip="活动加载中..." spinning={spinning} spinErr={spinErr} spinOk={spinOk} />

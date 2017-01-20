@@ -9,6 +9,8 @@ export default function reducer(state = {
   spinning: true,
   spinErr: false,
   spinOk: true,
+  historyMark: false,
+  historyText: '',
 }, action) {
   switch (action.type) {
     case 'GET_USERINFO_FULFILLED':
@@ -91,6 +93,29 @@ export default function reducer(state = {
           ...state,
           spinErr: true,
           spinOk: false,
+        };
+      }
+    case 'GET_RECORD_FULFILLED':
+      {
+        return {
+          ...state,
+          historyMark: true,
+          historyText: action.payload.data.data,
+        };
+      }
+    case 'GET_RECORD_REJECTED':
+      {
+        return {
+          ...state,
+          historyMark: true,
+          historyText: 'error',
+        };
+      }
+    case 'HISTORY_MODAL_HIDE':
+      {
+        return {
+          ...state,
+          historyMark: false,
         };
       }
     default:

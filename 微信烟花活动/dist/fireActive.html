@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>烟花活动</title>
+  <title>放烟花开红包</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="HandheldFriendly" content="True">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -93,6 +93,7 @@
         opacity: 0;
       }
     }
+
   </style>
   <script>
     (function () {
@@ -139,14 +140,23 @@
 
 <body>
   <div id="canvas"></div>
-  <audio style="display: none" id="music" loop preload="auto">
+  <audio style="opacity: 0" id="music" loop="loop" src="music.mp3" preload="preload">
     <source src="music.mp3" type="audio/mp3">
   </audio>
 </body>
 
+
+<script>
+  document.addEventListener("WeixinJSBridgeReady", function () {
+    window.music = document.getElementById('music');
+    window.music.play();
+    window.music.pause();
+  }, false);
+</script>
 <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
 <script src="fireWorks.js?1"></script>
 <script src="common.js"></script>
 <script src="index.js"></script>
+
 
 </html>
