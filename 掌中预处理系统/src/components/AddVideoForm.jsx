@@ -73,6 +73,8 @@ class VideoForm extends React.Component {
                 <Option value="1">电影</Option>
                 <Option value="2">电视剧</Option>
                 <Option value="3">综艺</Option>
+                <Option value="4">纪录片</Option>
+                <Option value="5">资讯</Option>
               </Select>
             )}
           </FormItem>

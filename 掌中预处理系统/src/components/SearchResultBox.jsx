@@ -19,7 +19,7 @@ export default class SearchResultBox extends React.Component {
 
   render() {
     const { items, filter, pageSize, isStar } = this.props;
-    const starName = this.props.params;
+    // const starName = this.props.params;
     let data = [];
     let isShow = false;
     if (isStar) {
@@ -39,7 +39,6 @@ export default class SearchResultBox extends React.Component {
     }
 
     let pageTotal = 0;
-
     if (data && data.length > 0) {
       pageTotal = data.length;
       const pages = data.reduce((page, ele, i) => {
@@ -48,10 +47,12 @@ export default class SearchResultBox extends React.Component {
         page[pageNum] = page[pageNum].concat(ele);
         return page;
       }, []);
-
       if (isStar) {
         data = pages[this.state.current - 1].map((item, i) => <SearchResultStar key={i} data={item} />);
+      } else if (pages[this.state.current - 1]) {
+        data = pages[this.state.current - 1].map((item, i) => <SearchResult key={i} data={item} />);
       } else {
+        this.state.current = 1;
         data = pages[this.state.current - 1].map((item, i) => <SearchResult key={i} data={item} />);
       }
 
@@ -73,7 +74,6 @@ export default class SearchResultBox extends React.Component {
           </Col>
           </Row>
         </div>
-
       </div>
     );
   }

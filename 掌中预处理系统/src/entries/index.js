@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'babel-polyfill';
-import { Router, Route, IndexRoute, hashHistory, createMemoryHistory, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import store from '../store';
 import Layout from '../layouts/Layout';
 import IndexPage from '../pages/IndexPage';
@@ -19,9 +19,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory} >
       <Route path="/" component={Layout}>
-          <IndexRoute component= {IndexPage} />
+          <IndexRoute component={IndexPage} />
           <Route path="videopage/:videoTypeId/:videoId/:videoSetId" component={DetailLayout}>
-            <IndexRoute component= {DetailPage} />
+            <IndexRoute component={DetailPage} />
             <Route path=":themeId" name="themePage" component={ThemePage} />
           </Route>
           <Route path="starpage/:starId" name="starPage" component={StarPage} />

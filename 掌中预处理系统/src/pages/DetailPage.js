@@ -30,6 +30,10 @@ export default class DetailPage extends React.Component {
         return <div key={ele.createTime}><EpisodeInfo data={data} /><hr /></div>;
       } else if (videoTypeId === '3') {
         return <div key={ele.createTime}><EntertainmentInfo data={data} /><hr /></div>;
+      } else if (videoTypeId === '4') {
+        return <div key={ele.createTime}><EntertainmentInfo data={data} /><hr /></div>;
+      } else if (videoTypeId === '5') {
+        return <div key={ele.createTime}><EntertainmentInfo data={data} /><hr /></div>;
       }
     }) || '暂无信息';
 

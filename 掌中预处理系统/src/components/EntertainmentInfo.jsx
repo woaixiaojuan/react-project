@@ -79,7 +79,6 @@ export default class EntertainmentInfo extends React.Component {
             <Col offset={10} xs={24} sm={24} md={5} lg={5} onClick={this.handleClick.bind(this)}>{buttonName} </Col>
          </Row>
         </Col >
-
       </Row >
     );
   }

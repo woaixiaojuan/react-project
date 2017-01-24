@@ -15,8 +15,10 @@ function randomMac() {
 var oMac = randomMac();
 
 var ENV = {
-  api: 'http://servicebeta15.handsight.cn',
-  activeId: '16512461',
+  // api: 'http://servicebeta15.handsight.cn',
+  api: 'http://service15.handsight.cn',
+  // activeId: '16512461',
+  activeId: '288435660',
   mac: oMac,
   appId: null,
   wordImg: 'http://resource.handsight.cn/voteActive/upload/img/1483688540066_3121.png',

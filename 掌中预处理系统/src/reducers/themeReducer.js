@@ -9,6 +9,13 @@ export default function reducer(state = {
   error: null,
 }, action) {
   switch (action.type) {
+    case 'DEL_THEME_REJECTED':
+      {
+        return {
+          ...state,
+          loading: false,
+        };
+      }
     case 'FETCH_THEME_TYPE_PENDING':
       {
         return {

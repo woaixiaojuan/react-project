@@ -13,6 +13,10 @@ export default class SearchResult extends React.Component {
       attribute = '电视剧';
     } else if (videoTypeId === 3) {
       attribute = '综艺节目';
+    } else if (videoTypeId === 4) {
+      attribute = '纪录片';
+    } else if (videoTypeId === 5) {
+      attribute = '资讯';
     }
     const imgStyle = {
       width: 0,

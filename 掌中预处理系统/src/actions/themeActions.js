@@ -11,7 +11,7 @@ export function fetchTheme(themeId, videoTypeId = 1) {
     // function getThemeType() {
     //   return axios.get(`${ENV.api}/type/themeList.do?videoTypeId=${videoTypeId}`);
     // }
-    //, getThemeType()
+    // , getThemeType()
     // axios.all([getThemes()])
     axios.get(`${ENV.api}/theme/getThemeList.do?videoId=${themeId}&pageNum=1&pageSize=3000`)
     .then((themes) => {
@@ -36,12 +36,35 @@ export function fetchTheme(themeId, videoTypeId = 1) {
     });
   };
 }
-//,typeList
-//  typeList.data.data.forEach(item => {
-//           if (ele.themeTypeId === item.themeTypeId) {
-//             ele.themeTypeName = item.themeTypeName;
-//           }
-//         })
+
+export function delTheme(themeId, videoId) {
+  return function (dispatch) {
+    dispatch({
+      type: 'FETCH_THEME_PENDING',
+    });
+    axios.get(`${ENV.api}/theme/delTheme.do?themeId=${themeId}&videoId=${videoId}`)
+    .then((themes) => {
+      const data = themes.data.data.map((ele) => {
+        const item = ele;
+        item.tag = `0-${ele.themeTypeId}-${ele.videoAttrId}`;
+        return item;
+      });
+      return data;
+    })
+    .then((res) => {
+      dispatch({
+        type: 'FETCH_THEME_FULFILLED',
+        payload: res,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: 'DEL_THEME_REJECTED',
+        payload: err,
+      });
+    });
+  };
+}
 
 export function clearTheme() {
   return {

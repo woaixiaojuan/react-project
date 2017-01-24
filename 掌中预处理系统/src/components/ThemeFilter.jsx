@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Input, notification, Collapse } from 'antd';
-import { filterTheme, checkTheme, fetchThemeType, fetchThemeAttr } from '../actions/themeActions';
+import { Button, Input } from 'antd';
 import classNames from 'classnames';
+import { filterTheme } from '../actions/themeActions';
+
 
 const InputGroup = Input.Group;
-const Panel = Collapse.Panel;
 
 
 export default class ThemeFilter extends React.Component {
@@ -13,7 +13,7 @@ export default class ThemeFilter extends React.Component {
     this.state = {
       value: '',
       focus: false,
-    }
+    };
   }
 
   handleInputChange(e) {
@@ -48,7 +48,7 @@ export default class ThemeFilter extends React.Component {
             </div>
           </InputGroup>
         </div>
-    )
+    );
   }
 }
 

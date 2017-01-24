@@ -10,6 +10,6 @@ export default class SelectFilter extends React.Component {
   render() {
     return (
       <Checkbox onChange={this.onChange.bind(this)}>{this.props.word}</Checkbox>
-    )
+    );
   }
 }

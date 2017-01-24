@@ -34,6 +34,8 @@ export default class TopBar extends React.Component {
                   <Option value="1">电影</Option>
                   <Option value="2">电视剧</Option>
                   <Option value="3">综艺</Option>
+                  <Option value="4">纪录片</Option>
+                  <Option value="5">资讯</Option>
                 </OptGroup>
                 <OptGroup label="明星类">
                   <Option value="star">全部（明星）</Option>

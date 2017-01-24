@@ -2,12 +2,12 @@ import React from 'react';
 import { Modal } from 'antd';
 
 export default class ShowImg extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       modalVisible: false,
-      img_src:'',
-    }
+      img_src: '',
+    };
   }
 
   setModalVisible(modalVisible) {
@@ -16,9 +16,9 @@ export default class ShowImg extends React.Component {
 
   info(e) {
     console.log(e.target.src);
-    this.setState({ 
+    this.setState({
       modalVisible: true,
-      img_src:e.target.src,
+      img_src: e.target.src,
     });
   }
 
@@ -32,13 +32,13 @@ export default class ShowImg extends React.Component {
         {Imgs}
         <Modal
           title="预览"
-          width='1280px'
+          width="1280px"
           visible={this.state.modalVisible}
           onOk={() => this.setModalVisible(false)}
           onCancel={() => this.setModalVisible(false)}
-          footer=''
+          footer=""
         >
-          <img src={this.state.img_src} style={{maxWidth:'100%', margin:'0 auto', display:'block'}} />
+          <img src={this.state.img_src} style={{ maxWidth: '100%', margin: '0 auto', display: 'block' }} />
         </Modal>
       </div>
     );

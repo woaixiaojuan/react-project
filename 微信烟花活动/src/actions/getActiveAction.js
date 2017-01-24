@@ -82,7 +82,19 @@ export function getUserInfo(tempAppId) {
           data: appId,
         });
       } else {
-        return Promise.reject(new Error(res.data.msg));
+        if (res.data.code === 30003) {
+          localStorage.removeItem('YH_appid');
+          localStorage.removeItem('YH_code');
+          message.error(res.data.msg, 2);
+          dispatch({
+            type: 'SPIN_ERR',
+          });
+          setTimeout(() => {
+            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc10b385bc9169aa6&redirect_uri=http://weixin.handsight.cn/wx_yh/index.html&response_type=code&scope=snsapi_userinfo&state=${ENV.activeId}#wechat_redirect`;
+          }, 2500);
+        } else {
+          return Promise.reject(new Error(res.data.msg));
+        }
       }
     })
     .catch((err) => {
